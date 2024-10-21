@@ -93,4 +93,40 @@ namespace ReportGenerator
             }
         }
     }
+
+    private static readonly Random random = new Random();
+    private const int MaxYearsBack = 10;
+
+    static double GenerateRandomBalance(double min, double max)
+    {
+        double balance = random.NextDouble() * (max - min) + min;
+        return Math.Round(balance, 2);
+    }
+
+    static string GenerateRandomAccountHolder()
+    {
+        string[] accountHolderNames = {  /* names here */  };
+        var accountHolderName = accountHolderNames[random.Next(0, accountHolderNames.Length)];
+        return accountHolderName;
+    }
+
+    static string GenerateRandomAccountType()
+    {
+        string[] accountTypes = {  /* types here */  };
+        return accountTypes[random.Next(0, accountTypes.Length)];
+    }
+
+    static DateTime GenerateRandomDateOpened()
+    {
+        DateTime startDate = new DateTime(DateTime.Today.Year - MaxYearsBack, 1, 1);
+        int daysRange = (DateTime.Today - startDate).Days;
+        DateTime randomDate = startDate.AddDays(random.Next(daysRange));
+
+        if (randomDate.Year == DateTime.Today.Year && randomDate >= DateTime.Today)
+        {
+            randomDate = randomDate.AddDays(-1);
+        }
+
+        return randomDate;
+    }
 }
